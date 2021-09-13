@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Services\MailGunMessageProvider;
 use App\Http\Services\TwilioMessageProvider;
 use App\Http\Validators\MessageValidator;
+use App\Models\Tracker;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class APIController extends Controller
 {
+    const SERVICE_TYPE_SMS      = 'sms';
+    const SERVICE_TYPE_EMAIL    = 'email';
+
     /** @var MessageValidator */
     private $validator;
 
@@ -49,9 +54,17 @@ class APIController extends Controller
         try {
             $messageProvider = new TwilioMessageProvider();
             $messageProvider->sendMessage($request);
+
+            $tracker            = new Tracker();
+            $tracker->service   = self::SERVICE_TYPE_SMS;
+            $tracker->code      = Str::random();
+            $tracker->message   = $request->get('message');
+            $tracker->payload   = ['phone' => $request->get('phone')];
+            $tracker->save();
+
             $result =[
                 'service'   => 'SMS',
-                'success'   => 'SMS sent with success'
+                'success'   => 'Message sent successfully! Your tracking code: ' . $tracker->code
             ];
         } catch (\Exception $exception) {
             $result =[
@@ -68,9 +81,20 @@ class APIController extends Controller
         try {
             $messageProvider = new MailGunMessageProvider();
             $messageProvider->sendMessage($request);
+
+            $tracker            = new Tracker();
+            $tracker->service   = self::SERVICE_TYPE_EMAIL;
+            $tracker->code      = Str::random();
+            $tracker->message   = $request->get('message');
+            $tracker->payload   = [
+                'subject'   => $request->get('subject'),
+                'email'     => $request->get('email'),
+            ];
+            $tracker->save();
+
             $result =[
-                'service'   => 'Email',
-                'success'   => 'Email sent with success'
+                'service'   => 'SMS',
+                'success'   => 'Message sent successfully! Your tracking code: ' . $tracker->code
             ];
         } catch (\Exception $exception) {
             $result =[
