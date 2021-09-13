@@ -10,7 +10,8 @@
         "mailgun/mailgun-php": "^3.5",
         "nyholm/psr7": "^1.4",
         "symfony/http-client": "^5.3",
-        "twilio/sdk": "6.28.2"
+        "twilio/sdk": "6.28.2",
+        "ext-json": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
