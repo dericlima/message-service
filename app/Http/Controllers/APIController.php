@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\MailGunMessageProvider;
 use App\Http\Services\TwilioMessageProvider;
 use App\Http\Validators\MessageValidator;
 use Illuminate\Http\Request;
@@ -36,7 +37,14 @@ class APIController extends Controller
                     } catch (\Exception $exception) {
                         return ['Request error' => $exception->getMessage()];
                     }
-
+                    break;
+                case 'email':
+                    try {
+                        $messageProvider = new MailGunMessageProvider();
+                        $messageProvider->sendMessage($request);
+                    } catch (\Exception $exception) {
+                        return ['Request error' => $exception->getMessage()];
+                    }
                     break;
             }
         }
