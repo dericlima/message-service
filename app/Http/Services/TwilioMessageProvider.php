@@ -7,10 +7,13 @@ use Twilio\Rest\Client;
 
 class TwilioMessageProvider implements MessageProvider
 {
+    /** @var string */
     private $id;
 
+    /** @var string */
     private $token;
 
+    /** @var Client */
     private $client;
 
     public function __construct()
