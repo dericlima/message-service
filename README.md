@@ -1,24 +1,47 @@
-# Lumen PHP Framework
+# TransferGO Message Service
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://img.shields.io/packagist/v/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://img.shields.io/packagist/l/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
+Service to send messages to customer from different channels
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+## Setting up
 
-## Official Documentation
+Clone the project: `https://github.com/dericlima/message-service.git`
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+Install all packages: `composer install`
 
-## Contributing
+Start the server: `php -S localhost:8000 -t public`
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## API Calls
 
-## Security Vulnerabilities
+This first version supports two channels: SMS and Email
+To call the API use the base URL:
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+`http://localhost:8000/send_message`
 
-## License
+## Parameters
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Each service has its own set of parameters. However both services share two common parameters: `message` and `services`.
+Both are required parameters.
+
+| Parameter    | Type | Example |
+| :-------- | :------------ | :----------|
+| message    | **required** | _send_message?message=test_ |
+| services    | **required** | _send_message?message=test&services[]=sms_ |
+
+Services is an array `services[]` of available services, multiple services can be configured with `send_message?services[]=sms&services[]=email`
+
+## SMS Service Parameters
+
+| Parameter    | Type | Example |
+| :-------- | :------------ | :----------|
+| phone    | **required** | _send_message?message=test&services[]=sms&phone=123456789_ |
+
+## Email Service Parameters
+
+| Parameter    | Type | Example |
+| :-------- | :------------ | :----------|
+| subject    | **required** | _send_message?message=test&services[]=email&subject=testSubject_ |
+| email    | **required** | _send_message?message=test&services[]=email&email=test@test.com_ |
+
+## Tests
+
+To run all tests, from the root folder run: `vendor/phpunit/phpunit/phpunit`
