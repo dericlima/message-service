@@ -18,7 +18,7 @@ class MessageValidator
      */
     public function validate(Request $request)
     {
-        $this->validateParameters($request);
+        $this->validateRequiredParameters($request);
 
         $this->validateService($request);
 
@@ -28,10 +28,14 @@ class MessageValidator
     /**
      * @throws \Exception
      */
-    private function validateParameters(Request $request)
+    private function validateRequiredParameters(Request $request)
     {
         if (!$request->has('message')) {
             throw new \Exception('Missing required parameter: message');
+        }
+
+        if (!$request->has('services')) {
+            throw new \Exception('Missing required parameter: services');
         }
     }
 
@@ -40,10 +44,6 @@ class MessageValidator
      */
     private function validateService(Request $request)
     {
-        if (!$request->has('services')) {
-            throw new \Exception('Missing required parameter: services');
-        }
-
         $services = $request->get('services');
         if (!is_array($services)) {
             throw new \Exception('Parameter services must be an array, please check if the parameters is on the format: services[]=sms');
