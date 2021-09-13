@@ -8,6 +8,8 @@ Clone the project: `https://github.com/dericlima/message-service.git`
 
 Install all packages: `composer install`
 
+Add the keys shared on slack in the `.env` file
+
 Start the server: `php -S localhost:8000 -t public`
 
 ## API Calls
