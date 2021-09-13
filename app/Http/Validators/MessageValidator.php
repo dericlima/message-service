@@ -65,4 +65,14 @@ class MessageValidator
             throw new \Exception('Message can not contain more than 150 characters');
         }
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function validateCode(Request $request)
+    {
+        if (!$request->has('code')) {
+            throw new \Exception('Missing required parameter: code');
+        }
+    }
 }

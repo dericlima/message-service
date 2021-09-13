@@ -13,3 +13,5 @@
 |
 */
 $router->get('/send_message', 'APIController@sendMessage');
+
+$router->get('/code_tracking', 'APIController@trackCode');

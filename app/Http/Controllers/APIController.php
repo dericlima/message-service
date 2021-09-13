@@ -105,4 +105,23 @@ class APIController extends Controller
 
         return $result;
     }
+
+    public function trackCode(Request $request)
+    {
+        try {
+            $this->validator->validateCode($request);
+
+            $tracker = Tracker::where('code', $request->get('code'))->first();
+            if ($tracker) {
+                return response()->json([
+                    'success' => 'Code found!',
+                    'data' => $tracker->toArray(),
+                ]);
+            } else {
+                return response()->json(['error' => 'Code not found']);
+            }
+        } catch (\Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()]);
+        }
+    }
 }
