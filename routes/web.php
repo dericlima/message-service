@@ -12,9 +12,4 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
-
-$router->get('/message', 'APIController@sendMessage');
+$router->get('/send_message', 'APIController@sendMessage');
